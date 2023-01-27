@@ -7,36 +7,48 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutonomousConstants;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Vision;
 
-public class FollowDrive extends CommandBase {
+public class AutoCorrectionDrive extends CommandBase {
+
   private DriveTrain driveTrain;
-  private Vision vision;
 
-  private double speed = AutonomousConstants.AUTO_SPEED;
-  /** Creates a new FollowDrive. */
-  public FollowDrive(DriveTrain driveTrain, Vision vision) {
+  private double rightSpeed = AutonomousConstants.AUTO_SPEED;
+  private double leftSpeed = AutonomousConstants.AUTO_SPEED;
+  private double turnSpeed = AutonomousConstants.AUTO_TURNSPEED;
+
+  private double angle = driveTrain.getGyroAngle();
+  /** Creates a new AutoCorrectionDrive. */
+  public AutoCorrectionDrive(DriveTrain driveTrain) {
     this.driveTrain = driveTrain;
-    this.vision = vision;
 
     addRequirements(driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    driveTrain.resetGyroAngle();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(vision.hasValidTarget()){
-      driveTrain.tankDrive(speed, speed);
+    driveSpeed(rightSpeed, leftSpeed);
+    if(angle>=20){
+      driveSpeed(0, turnSpeed);
+    }else if(angle<=-20){
+      driveSpeed(turnSpeed,0);
     }
   }
 
+  public void driveSpeed(double rightSpeed, double leftSpeed){
+    driveTrain.tankDrive(rightSpeed, leftSpeed);
+  }
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    driveTrain.stopMotors();
+  }
 
   // Returns true when the command should end.
   @Override

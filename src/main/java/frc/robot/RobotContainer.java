@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.AutonomousConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.Grabber;
+import frc.robot.commands.auto.AutoCorrectionDrive;
 import frc.robot.commands.auto.DriveTimedCommand;
 import frc.robot.commands.auto.FollowDrive;
 import frc.robot.commands.drive.ArcadeDrive;
@@ -32,11 +34,11 @@ public class RobotContainer {
 
   //commands
   private final ArcadeDrive arcadeDrive;
-
   public static Grabber grabber;
 
   public static DriveTimedCommand driveTimedCommand;
   public static FollowDrive followDrive;
+  public static AutoCorrectionDrive autoCorrectionDrive;
   
   //Joysticks
   public static final XboxController XboxStick = new XboxController(DriveConstants.XBOX_JOY);
@@ -56,8 +58,10 @@ public class RobotContainer {
     grabber = new Grabber(claw, XboxStick);
     claw.setDefaultCommand(grabber);
 
-    driveTimedCommand = new DriveTimedCommand(drivetrain, 3, 0.5);
+    driveTimedCommand = new DriveTimedCommand(drivetrain, 
+                              AutonomousConstants.DRIVE_TIME, AutonomousConstants.AUTO_SPEED);
     followDrive = new FollowDrive(drivetrain, vision);
+    autoCorrectionDrive = new AutoCorrectionDrive(drivetrain);
 
     // Configure the trigger bindings
     configureBindings();
@@ -84,6 +88,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return driveTimedCommand;
+    return autoCorrectionDrive;
   }
 }
