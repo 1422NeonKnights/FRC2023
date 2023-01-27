@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 public class DriveTrain extends SubsystemBase {
-  public ADXRS450_Gyro gyro;
 
+  public ADXRS450_Gyro gyro;
   //define TalonSRX
   WPI_TalonSRX rightMotor1;
   WPI_TalonSRX rightMotor2;
@@ -139,7 +139,9 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {
+  
     // This method will be called once per scheduler run
+    
     SmartDashboard.putNumber("FR Volts", rightMotor1.getBusVoltage());
     SmartDashboard.putNumber("FL Volts", leftMotor1.getBusVoltage());
     SmartDashboard.putNumber("BR Volts", rightMotor2.getBusVoltage());
