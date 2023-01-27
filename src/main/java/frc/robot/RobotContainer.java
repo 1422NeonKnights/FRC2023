@@ -5,14 +5,17 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-//import frc.robot.commands.Autos;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.Grabber;
+import frc.robot.commands.auto.DriveTimedCommand;
+import frc.robot.commands.auto.FollowDrive;
+import frc.robot.commands.drive.ArcadeDrive;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Vision;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -23,10 +26,17 @@ import frc.robot.subsystems.DriveTrain;
 public class RobotContainer {
 
   //subsystems
-  public static final DriveTrain drivetrain = new DriveTrain();
-  public static final Claw claw = new Claw();
-  
+  public final DriveTrain drivetrain;
+  public final Claw claw;
+  private Vision vision;
+
   //commands
+  private final ArcadeDrive arcadeDrive;
+
+  public static Grabber grabber;
+
+  public static DriveTimedCommand driveTimedCommand;
+  public static FollowDrive followDrive;
   
   //Joysticks
   public static final XboxController XboxStick = new XboxController(DriveConstants.XBOX_JOY);
@@ -36,9 +46,19 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    
-    drivetrain.setDefaultCommand(new ArcadeDrive());
-    claw.setDefaultCommand(new Grabber());
+    drivetrain = new DriveTrain();
+    claw = new Claw();
+    vision = new Vision();
+
+    arcadeDrive = new ArcadeDrive(drivetrain, leftStick);
+    drivetrain.setDefaultCommand(arcadeDrive);
+
+    grabber = new Grabber(claw, XboxStick);
+    claw.setDefaultCommand(grabber);
+
+    driveTimedCommand = new DriveTimedCommand(drivetrain, 3, 0.5);
+    followDrive = new FollowDrive(drivetrain, vision);
+
     // Configure the trigger bindings
     configureBindings();
   }
@@ -63,8 +83,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  //public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    //return Autos.exampleAuto(m_exampleSubsystem);
-  //}
+  public Command getAutonomousCommand() {
+    return driveTimedCommand;
+  }
 }

@@ -24,6 +24,7 @@ public final class Constants {
     public static final int XBOX_JOY = 2;
 
     public static final double MAX_SPEED = 0.87;
+    public static final double AUTO_SPEED = 0.5;
 
     public static final double DRIVE_RAMP_RATE = 0.35;
   }

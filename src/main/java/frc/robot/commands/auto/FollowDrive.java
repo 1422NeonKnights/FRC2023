@@ -2,41 +2,37 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Claw;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Vision;
 
-public class Grabber extends CommandBase {
+public class FollowDrive extends CommandBase {
+  private DriveTrain driveTrain;
+  private Vision vision;
 
-  private final Claw claw;
-  private final XboxController XboxStick;
+  private double speed = DriveConstants.AUTO_SPEED;
+  /** Creates a new FollowDrive. */
+  public FollowDrive(DriveTrain driveTrain, Vision vision) {
+    this.driveTrain = driveTrain;
+    this.vision = vision;
 
-  /** Creates a new Grabber. */
-  public Grabber(Claw claw, XboxController XboxStick) {
-    this.claw = claw;
-    this.XboxStick = XboxStick;
-
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(claw);
+    addRequirements(driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if(vision.hasValidTarget()){
+      driveTrain.tankDrive(speed, speed);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-
-    if(XboxStick.getBButtonPressed()){
-      claw.pitchUp();
-    }else if(XboxStick.getAButtonReleased()){
-      claw.pitchDown();
-    }
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
