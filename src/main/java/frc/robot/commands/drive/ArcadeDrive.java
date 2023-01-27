@@ -33,14 +33,10 @@ public class ArcadeDrive extends CommandBase {
     driveTrain.arcadeDrive(moveSpeed, rotateSpeed);
   }
 
-  public void stopDrive(){
-    driveTrain.arcadeDrive(0, 0);
-  }
-
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    driveTrain.arcadeDrive(0, 0);
+    driveTrain.stopMotors();
   }
 
   // Returns true when the command should end.
