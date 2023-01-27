@@ -24,8 +24,25 @@ public final class Constants {
     public static final int XBOX_JOY = 2;
 
     public static final double MAX_SPEED = 0.87;
-    public static final double AUTO_SPEED = 0.5;
 
     public static final double DRIVE_RAMP_RATE = 0.35;
+  }
+
+  public class AutonomousConstants{
+    public static final double AUTO_SPEED = 0.5;
+    public static final double AUTO_TURNSPEED = 0.3;
+    public static final int DRIVE_TIME = 3;
+  }
+
+  public class ElevatorConstants{
+    
+  }
+
+  public class VisionConstants{
+
+  }
+
+  public class ClawConstants{
+
   }
 }
