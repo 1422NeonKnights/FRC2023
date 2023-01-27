@@ -118,7 +118,6 @@ public class DriveTrain extends SubsystemBase {
     differentialDrive.arcadeDrive(moveSpeed, rotateSpeed);
   }
 
-
   public void stopMotors(){
     rightMotor1.set(0);
     rightMotor2.set(0);
@@ -126,13 +125,14 @@ public class DriveTrain extends SubsystemBase {
     leftMotor2.set(0);
   }
 
+  //average of 4 motors
   public double getAvgTemperature(){
     return (rightMotor1.getTemperature()+rightMotor2.getTemperature()
             +leftMotor1.getTemperature()+leftMotor2.getTemperature())/4;
   }
 
+  //average of 4 motors in percentages
   public double getAvgSpeed(){
-
     return ((int)Math.abs((rightMotor1.getMotorOutputPercent()* 100)+ (rightMotor2.getMotorOutputPercent() * 100)
             + (leftMotor1.getMotorOutputPercent()* 100)+ (leftMotor2.getMotorOutputPercent()* 100)))/4;
   }
@@ -141,7 +141,6 @@ public class DriveTrain extends SubsystemBase {
   public void periodic() {
   
     // This method will be called once per scheduler run
-    
     SmartDashboard.putNumber("FR Volts", rightMotor1.getBusVoltage());
     SmartDashboard.putNumber("FL Volts", leftMotor1.getBusVoltage());
     SmartDashboard.putNumber("BR Volts", rightMotor2.getBusVoltage());
