@@ -52,7 +52,7 @@ public class RobotContainer {
     claw = new Claw();
     vision = new Vision();
 
-    arcadeDrive = new ArcadeDrive(drivetrain, leftStick);
+    arcadeDrive = new ArcadeDrive(drivetrain, leftStick, vision);
     drivetrain.setDefaultCommand(arcadeDrive);
 
     grabber = new Grabber(claw, XboxStick);
