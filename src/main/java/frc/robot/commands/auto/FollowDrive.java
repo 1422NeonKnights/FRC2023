@@ -30,7 +30,17 @@ public class FollowDrive extends CommandBase {
   @Override
   public void execute() {
     if(vision.hasValidTarget()){
-      driveTrain.tankDrive(speed, speed);
+      if(vision.getDistance()>=16){
+        driveTrain.tankDrive(-speed, -speed);
+      }else if(vision.getDistance()<=14){
+        driveTrain.tankDrive(speed, speed);
+      }
+
+      if(vision.getHorizontalOffset()>=21){
+        driveTrain.tankDrive(speed, -speed);
+      }else if(vision.getHorizontalOffset()<=19){
+        driveTrain.tankDrive(-speed, speed);
+      }
     }
   }
 

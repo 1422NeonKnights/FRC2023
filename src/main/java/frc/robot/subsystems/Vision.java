@@ -11,13 +11,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
-  private final NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
+  private final NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight-neon");
 
   private NetworkTableEntry tx = limelight.getEntry("tx");
   private NetworkTableEntry ty = limelight.getEntry("ty");
   private NetworkTableEntry tv = limelight.getEntry("tv");
+  private NetworkTableEntry ta = limelight.getEntry("ta");
   /** Creates a new Vision. */
-  public Vision() {}
+  public Vision() {
+    
+  }
 
   public boolean hasValidTarget(){
     return tv.getDouble(0) == 1;
@@ -29,6 +32,10 @@ public class Vision extends SubsystemBase {
 
   public double getVerticalOffset(){
     return ty.getDouble(0);
+  }
+
+  public double getDistance(){
+    return ta.getDouble(0);
   }
 
   //sets LED state, on = 3 off = 1
@@ -45,5 +52,6 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("Horizontal Offset", getHorizontalOffset());
     SmartDashboard.putNumber("Vertical Offset", getVerticalOffset());
     SmartDashboard.putBoolean("Target Sensing", hasValidTarget());
+    SmartDashboard.putNumber("Area", getDistance());
   }
 }

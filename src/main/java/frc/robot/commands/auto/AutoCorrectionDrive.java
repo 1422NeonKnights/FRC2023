@@ -12,11 +12,10 @@ public class AutoCorrectionDrive extends CommandBase {
 
   private DriveTrain driveTrain;
 
-  private double rightSpeed = AutonomousConstants.AUTO_SPEED;
-  private double leftSpeed = AutonomousConstants.AUTO_SPEED;
-  private double turnSpeed = AutonomousConstants.AUTO_TURNSPEED;
+  private double turnSpeed = AutonomousConstants.AUTOCORRECTION_TURNSPEED;
+  private double correctionAngle = AutonomousConstants.AUTOCORRECTION_ANGLE;
 
-  private double angle = driveTrain.getGyroAngle();
+  private double angle;
   /** Creates a new AutoCorrectionDrive. */
   public AutoCorrectionDrive(DriveTrain driveTrain) {
     this.driveTrain = driveTrain;
@@ -33,11 +32,11 @@ public class AutoCorrectionDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveSpeed(rightSpeed, leftSpeed);
-    if(angle>=20){
-      driveSpeed(0, turnSpeed);
-    }else if(angle<=-20){
-      driveSpeed(turnSpeed,0);
+    angle = driveTrain.getGyroAngle();
+    if(angle>=correctionAngle){
+      driveSpeed(-turnSpeed, turnSpeed);
+    }else if(angle<=correctionAngle){
+      driveSpeed(turnSpeed,-turnSpeed);
     }
   }
 
