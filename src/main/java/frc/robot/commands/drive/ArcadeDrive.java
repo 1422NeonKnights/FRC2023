@@ -31,10 +31,11 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
     if(leftstick.getTopPressed()){
-      vision.setLEDMode("blinking");
+      vision.setLEDMode("off");
     }else if(leftstick.getTopReleased()) {
       vision.setLEDMode("on");
     }
+
     double moveSpeed = -leftstick.getY() * DriveConstants.MAX_SPEED;
     double rotateSpeed = leftstick.getX() * DriveConstants.MAX_SPEED;
 

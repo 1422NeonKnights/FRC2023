@@ -15,9 +15,9 @@ package frc.robot;
 public final class Constants {
   public class DriveConstants{
     public static final int DRIVETRAIN_LEFT_BACK_TALON = 2;  //2 2
-    public static final int DRIVETRAIN_LEFT_FRONT_TALON = 1; //1 3
-    public static final int DRIVETRAIN_RIGHT_FRONT_TALON = 0; //0 4
-    public static final int DRIVETRAIN_RIGHT_BACK_TALON = 3; //3 5
+    public static final int DRIVETRAIN_LEFT_FRONT_TALON = 3; //1 3
+    public static final int DRIVETRAIN_RIGHT_FRONT_TALON = 4; //0 4
+    public static final int DRIVETRAIN_RIGHT_BACK_TALON = 5; //3 5
 
     public static final int LEFT_JOY = 0;
     public static final int RIGHT_JOY = 1;
@@ -29,14 +29,15 @@ public final class Constants {
   }
 
   public class AutonomousConstants{
+    //Autonomous
     public static final double AUTO_SPEED = 0.65;
-    public static final double AUTO_TURNSPEED = 0.60;
+    public static final double AUTO_TURNSPEED = 0.60;  
+    public static final int DRIVE_TIME = 3;
 
+    //Autocorrection
     public static final double AUTOCORRECTION_SPEED = 0.55;
     public static final double AUTOCORRECTION_TURNSPEED = 0.50;
     public static final double AUTOCORRECTION_ANGLE = 6.9;
-
-    public static final int DRIVE_TIME = 3;
   }
 
   public class ElevatorConstants{
