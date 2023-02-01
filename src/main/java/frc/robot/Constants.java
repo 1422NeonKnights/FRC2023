@@ -45,7 +45,11 @@ public final class Constants {
   }
 
   public class VisionConstants{
+    public static final double HORIZONTAL_CENTER = 0;
+    public static final double VERTICAL_CENTER = 0;
 
+    public static final double HORIZONTAL_OFFSET_ALLOWANCE = 3;
+    public static final double VERTICAL_OFFSET_ALLOWANCE = 2;
   }
 
   public class ClawConstants{
