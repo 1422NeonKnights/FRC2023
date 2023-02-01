@@ -38,6 +38,11 @@ public class XboxDrive extends CommandBase {
       vision.setLEDMode("on");
     }
 
+    if(xboxStick.getRightBumperPressed()){
+      vision.setCamMode("vision");
+      vision.setCamMode("drive");
+    }
+
     double moveSpeed = xboxStick.getLeftY() * DriveConstants.MAX_SPEED;
     double rotateSpeed = xboxStick.getRightX() * DriveConstants.MAX_SPEED;
 
