@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AutonomousConstants;
 import frc.robot.Constants.DriveConstants;
@@ -14,6 +15,7 @@ import frc.robot.commands.Grabber;
 import frc.robot.commands.auto.AutoCorrectionDrive;
 import frc.robot.commands.auto.DriveTimedCommand;
 import frc.robot.commands.auto.FollowDrive;
+import frc.robot.commands.auto.LockTargetCommand;
 import frc.robot.commands.drive.ArcadeDrive;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.DriveTrain;
@@ -39,6 +41,7 @@ public class RobotContainer {
   public static DriveTimedCommand driveTimedCommand;
   public static FollowDrive followDrive;
   public static AutoCorrectionDrive autoCorrectionDrive;
+  public static LockTargetCommand lockTargetCommand;
   
   //Joysticks
   public static final XboxController XboxStick = new XboxController(DriveConstants.XBOX_JOY);
@@ -48,20 +51,24 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    //subsystems
     drivetrain = new DriveTrain();
     claw = new Claw();
     vision = new Vision();
 
+    //drive commands
     arcadeDrive = new ArcadeDrive(drivetrain, leftStick, vision);
     drivetrain.setDefaultCommand(arcadeDrive);
 
     grabber = new Grabber(claw, XboxStick);
     claw.setDefaultCommand(grabber);
 
+    //commands
     driveTimedCommand = new DriveTimedCommand(drivetrain, 
                               AutonomousConstants.DRIVE_TIME, AutonomousConstants.AUTO_SPEED);
     followDrive = new FollowDrive(drivetrain, vision);
     autoCorrectionDrive = new AutoCorrectionDrive(drivetrain);
+    lockTargetCommand = new LockTargetCommand(drivetrain, vision);
 
     // Configure the trigger bindings
     configureBindings();
@@ -77,9 +84,11 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
+    //when button held
+    new JoystickButton(leftStick, 0).whileTrue(autoCorrectionDrive);
+    new JoystickButton(leftStick, 1).whileTrue(followDrive);
+    new JoystickButton(leftStick, 2).whileTrue(lockTargetCommand);
+    
   }
 
   /**
