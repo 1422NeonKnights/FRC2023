@@ -57,7 +57,7 @@ public class RobotContainer {
     vision = new Vision();
 
     //drive commands
-    arcadeDrive = new ArcadeDrive(drivetrain, leftStick, vision);
+    arcadeDrive = new ArcadeDrive(drivetrain, leftStick);
     drivetrain.setDefaultCommand(arcadeDrive);
 
     grabber = new Grabber(claw, XboxStick);
@@ -85,9 +85,9 @@ public class RobotContainer {
    */
   private void configureBindings() {
     //when button held
-    new JoystickButton(leftStick, 0).whileTrue(autoCorrectionDrive);
-    new JoystickButton(leftStick, 1).whileTrue(followDrive);
-    new JoystickButton(leftStick, 2).whileTrue(lockTargetCommand);
+    new JoystickButton(leftStick, 1).whileTrue(autoCorrectionDrive);
+    new JoystickButton(leftStick, 2).whileTrue(followDrive);
+    new JoystickButton(leftStick, 3).whileTrue(lockTargetCommand);
     
   }
 

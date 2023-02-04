@@ -36,7 +36,7 @@ public class AutoCorrectionDrive extends CommandBase {
 
     if(angle>=correctionAngle){
       driveSpeed(-turnSpeed, turnSpeed);
-    }else if(angle<=correctionAngle){
+    }else if(angle<=-correctionAngle){
       driveSpeed(turnSpeed,-turnSpeed);
     }
   }

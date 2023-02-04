@@ -22,7 +22,7 @@ public class Vision extends SubsystemBase {
   private NetworkTableEntry ledMode = limelight.getEntry("ledMode");
   /** Creates a new Vision. */
   public Vision() {
-    
+    setLEDMode("off");
   }
 
   public boolean hasValidTarget(){
