@@ -8,17 +8,14 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Vision;
 
 public class ArcadeDrive extends CommandBase {
   private final DriveTrain driveTrain;
-  private Vision vision;
   private final Joystick leftstick;
   /** Creates a new ArcadeDrive. */
-  public ArcadeDrive(DriveTrain driveTrain, Joystick leftstick, Vision vision) {
+  public ArcadeDrive(DriveTrain driveTrain, Joystick leftstick) {
     this.driveTrain = driveTrain;
     this.leftstick = leftstick;
-    this.vision = vision;
 
     addRequirements(driveTrain);
   }
@@ -30,11 +27,6 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(leftstick.getTopPressed()){
-      vision.setLEDMode("off");
-    }else if(leftstick.getTopReleased()) {
-      vision.setLEDMode("on");
-    }
 
     double moveSpeed = -leftstick.getY() * DriveConstants.MAX_SPEED;
     double rotateSpeed = leftstick.getX() * DriveConstants.MAX_SPEED;
