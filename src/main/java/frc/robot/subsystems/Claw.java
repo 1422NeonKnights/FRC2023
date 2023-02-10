@@ -19,14 +19,11 @@ public class Claw extends SubsystemBase {
 
   /** Creates a new Claw. */
   public Claw() {
-    compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-    grabber = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+    grabber = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 5);
   }
-
   public double getCompressorPressure(){
     return compressor.getPressure();
   }
-
   public boolean isClawOpen(){
     if(grabber.isRevSolenoidDisabled()){
       return true;
@@ -44,4 +41,5 @@ public class Claw extends SubsystemBase {
   @Override
   public void periodic() {
   }
+  
 }

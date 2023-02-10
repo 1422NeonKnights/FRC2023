@@ -15,9 +15,9 @@ package frc.robot;
 public final class Constants {
   public class DriveConstants{
     public static final int DRIVETRAIN_LEFT_BACK_TALON = 2;  //2 2
-    public static final int DRIVETRAIN_LEFT_FRONT_TALON = 3; //1 3
-    public static final int DRIVETRAIN_RIGHT_FRONT_TALON = 4; //0 4
-    public static final int DRIVETRAIN_RIGHT_BACK_TALON = 5; //3 5
+    public static final int DRIVETRAIN_LEFT_FRONT_TALON = 1; //1 3
+    public static final int DRIVETRAIN_RIGHT_FRONT_TALON = 0; //0 4
+    public static final int DRIVETRAIN_RIGHT_BACK_TALON = 3; //3 5
 
     public static final int LEFT_JOY = 0;
     public static final int RIGHT_JOY = 1;
