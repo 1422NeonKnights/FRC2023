@@ -32,7 +32,7 @@ public final class Constants {
     //Autonomous
     public static final double AUTO_SPEED = 0.65;
     public static final double AUTO_TURNSPEED = 0.60;  
-    public static final int DRIVE_TIME = 3;
+    public static final int AUTO_DRIVE_TIME = 3;
 
     //Autocorrection
     public static final double AUTOCORRECTION_SPEED = 0.55;
