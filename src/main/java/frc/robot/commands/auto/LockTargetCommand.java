@@ -39,9 +39,11 @@ public class LockTargetCommand extends CommandBase {
       //position robot towards target if detected.
       if(vision.getHorizontalOffset() >= hOffsetAllowance){
         driveTrain.tankDrive(turnSpeed, -turnSpeed);
-      }
-      if(vision.getHorizontalOffset() <= -hOffsetAllowance){
+      } else if(vision.getHorizontalOffset() <= -hOffsetAllowance){
         driveTrain.tankDrive(-turnSpeed, turnSpeed);
+      } else {
+        //once target is in sight, end the command
+        end(true);
       }
     }
   }
