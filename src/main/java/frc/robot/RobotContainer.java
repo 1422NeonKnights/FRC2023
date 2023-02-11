@@ -92,8 +92,6 @@ public class RobotContainer {
     configureBindings();
     //set up autonomous chooser
     configureAutoChooser();
-    //Dashboard
-    configureDashboard();
 
     //silence joystick warning
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -124,10 +122,6 @@ public class RobotContainer {
     
     SmartDashboard.putData(autoChooser);
   }
-
-  private void configureDashboard(){
-  }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
