@@ -24,6 +24,7 @@ import frc.robot.commands.drive.ArcadeDrive;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Telemetry;
 import frc.robot.subsystems.Vision;
 
 /**
@@ -39,6 +40,7 @@ public class RobotContainer {
   public final Claw claw;
   public final Elevator elevator;
   private Vision vision;
+  private Telemetry telemetry;
 
   //commands
   private final ArcadeDrive arcadeDrive;
@@ -66,6 +68,7 @@ public class RobotContainer {
     claw = new Claw();
     vision = new Vision();
     elevator = new Elevator();
+    telemetry = new Telemetry();
 
     //drive commands
     arcadeDrive = new ArcadeDrive(drivetrain, leftStick);
@@ -82,13 +85,15 @@ public class RobotContainer {
     driveTimedCommand = new DriveTimedCommand(drivetrain, 
                               AutonomousConstants.AUTO_DRIVE_TIME, AutonomousConstants.AUTO_SPEED);
     followDrive = new FollowDrive(drivetrain, vision);
-    autoCorrectionDrive = new AutoCorrectionDrive(drivetrain);
+    autoCorrectionDrive = new AutoCorrectionDrive(drivetrain, telemetry);
     lockTargetCommand = new LockTargetCommand(drivetrain, vision);
 
     // Configure the trigger bindings
     configureBindings();
     //set up autonomous chooser
     configureAutoChooser();
+    //Dashboard
+    configureDashboard();
 
     //silence joystick warning
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -119,6 +124,10 @@ public class RobotContainer {
     
     SmartDashboard.putData(autoChooser);
   }
+
+  private void configureDashboard(){
+  }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

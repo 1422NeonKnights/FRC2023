@@ -7,18 +7,21 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutonomousConstants;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Telemetry;
 
 public class AutoCorrectionDrive extends CommandBase {
 
   private DriveTrain driveTrain;
+  private Telemetry telemetry;
 
   private double turnSpeed = AutonomousConstants.AUTOCORRECTION_TURNSPEED;
   private double correctionAngle = AutonomousConstants.AUTOCORRECTION_ANGLE;
 
   private double angle;
   /** Creates a new AutoCorrectionDrive. */
-  public AutoCorrectionDrive(DriveTrain driveTrain) {
+  public AutoCorrectionDrive(DriveTrain driveTrain, Telemetry telemetry) {
     this.driveTrain = driveTrain;
+    this.telemetry = telemetry;
 
     addRequirements(driveTrain);
   }
@@ -26,13 +29,13 @@ public class AutoCorrectionDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    driveTrain.resetGyroAngle();
+    telemetry.resetGyroAngle();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    angle = driveTrain.getGyroAngle();
+    angle = telemetry.getGyroAngle();
 
     if(angle>=correctionAngle){
       driveSpeed(-turnSpeed, turnSpeed);

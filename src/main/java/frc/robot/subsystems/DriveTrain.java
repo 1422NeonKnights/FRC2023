@@ -8,10 +8,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,8 +16,6 @@ import frc.robot.Constants.DriveConstants;
 
 public class DriveTrain extends SubsystemBase {
 
-  public ADXRS450_Gyro gyro; 
-  public Accelerometer accelmeter;
   //define TalonSRX
   WPI_TalonSRX rightMotor1;
   WPI_TalonSRX rightMotor2;
@@ -98,31 +93,8 @@ public class DriveTrain extends SubsystemBase {
 
     //differential drive for arcade/tank
     differentialDrive = new DifferentialDrive(leftMotors, rightMotors);
-
-    gyro = new ADXRS450_Gyro();
-    accelmeter = new BuiltInAccelerometer();
-
-    
   }
 
-  //gryo
-  public void resetGyroAngle() {
-    gyro.reset();
-  }
-  public double getGyroAngle() {
-    return gyro.getAngle();
-  }
-
-  //accel
-  public double getAccelZ() {
-    return accelmeter.getZ();
-  }
-  public double getAccelY() {
-    return accelmeter.getY();
-  }
-  public double getAccelX() {
-    return accelmeter.getX();
-  }
 
   //tank drive
   public void tankDrive(double right, double left){
@@ -169,11 +141,5 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("Avg Speed", getAvgSpeed());
 
     SmartDashboard.putNumber("Average Drive Motor Temperature", getAvgTemperature());
-
-    SmartDashboard.putNumber("Gryo Angle", getGyroAngle());
-    
-    SmartDashboard.putNumber("AccelX", getAccelX());
-    SmartDashboard.putNumber("AccelY", getAccelY());
-    SmartDashboard.putNumber("AccelZ", getAccelZ());
    }
 }
