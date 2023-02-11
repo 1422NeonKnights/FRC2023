@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AutonomousConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.Grabber;
 import frc.robot.commands.auto.AutoCorrectionDrive;
 import frc.robot.commands.auto.DriveTimedCommand;
@@ -19,6 +20,7 @@ import frc.robot.commands.auto.LockTargetCommand;
 import frc.robot.commands.drive.ArcadeDrive;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Vision;
 
 /**
@@ -32,10 +34,12 @@ public class RobotContainer {
   //subsystems
   public final DriveTrain drivetrain;
   public final Claw claw;
+  public final Elevator elevator;
   private Vision vision;
 
   //commands
   private final ArcadeDrive arcadeDrive;
+  public static ElevatorCommand elevatorCommand;
   public static Grabber grabber;
 
   public static DriveTimedCommand driveTimedCommand;
@@ -55,6 +59,7 @@ public class RobotContainer {
     drivetrain = new DriveTrain();
     claw = new Claw();
     vision = new Vision();
+    elevator = new Elevator();
 
     //drive commands
     arcadeDrive = new ArcadeDrive(drivetrain, leftStick);
@@ -62,6 +67,10 @@ public class RobotContainer {
 
     grabber = new Grabber(claw, XboxStick);
     claw.setDefaultCommand(grabber);
+
+    //Elevator
+    elevatorCommand = new ElevatorCommand(elevator, XboxStick, vision);
+    elevator.setDefaultCommand(elevatorCommand);
 
     //commands
     driveTimedCommand = new DriveTimedCommand(drivetrain, 

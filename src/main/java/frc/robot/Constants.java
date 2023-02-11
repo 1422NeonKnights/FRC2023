@@ -41,7 +41,8 @@ public final class Constants {
   }
 
   public class ElevatorConstants{
-    
+    public static final int TOWER_MOTOR_ID = 4;
+    public static final int JIB_MOTOR_ID = 5; 
   }
 
   public class VisionConstants{
