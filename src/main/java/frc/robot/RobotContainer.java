@@ -3,8 +3,11 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -42,10 +45,13 @@ public class RobotContainer {
   public static ElevatorCommand elevatorCommand;
   public static Grabber grabber;
 
+  //Autonomous
   public static DriveTimedCommand driveTimedCommand;
   public static FollowDrive followDrive;
   public static AutoCorrectionDrive autoCorrectionDrive;
   public static LockTargetCommand lockTargetCommand;
+
+  private SendableChooser<Command> autoChooser = new SendableChooser<>();
   
   //Joysticks
   public static final XboxController XboxStick = new XboxController(DriveConstants.XBOX_JOY);
@@ -74,13 +80,18 @@ public class RobotContainer {
 
     //commands
     driveTimedCommand = new DriveTimedCommand(drivetrain, 
-                              AutonomousConstants.DRIVE_TIME, AutonomousConstants.AUTO_SPEED);
+                              AutonomousConstants.AUTO_DRIVE_TIME, AutonomousConstants.AUTO_SPEED);
     followDrive = new FollowDrive(drivetrain, vision);
     autoCorrectionDrive = new AutoCorrectionDrive(drivetrain);
     lockTargetCommand = new LockTargetCommand(drivetrain, vision);
 
     // Configure the trigger bindings
     configureBindings();
+    //set up autonomous chooser
+    configureAutoChooser();
+
+    //silence joystick warning
+    DriverStation.silenceJoystickConnectionWarning(true);
   }
 
   /**
@@ -100,12 +111,20 @@ public class RobotContainer {
     
   }
 
+  private void configureAutoChooser() {
+    autoChooser.setDefaultOption("Gyro Correction", autoCorrectionDrive);
+    autoChooser.addOption("Drive For 3 Seconds", driveTimedCommand);
+    autoChooser.addOption("Limelight Follow Drive", followDrive);
+    autoChooser.addOption("Lock Target", lockTargetCommand);
+    
+    SmartDashboard.putData(autoChooser);
+  }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autoCorrectionDrive;
+    return autoChooser.getSelected();
   }
 }
