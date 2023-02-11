@@ -20,25 +20,30 @@ public class Telemetry extends SubsystemBase {
   public Accelerometer accelmeter;
   
   //cameras
-  private UsbCamera camera[];
+  private UsbCamera camera1;
+  private UsbCamera camera2;
   private VideoSink server;
   /** Creates a new Telemetry. */
   public Telemetry() {
     gyro = new ADXRS450_Gyro();
     accelmeter = new BuiltInAccelerometer();
 
-    camera[0] = CameraServer.startAutomaticCapture(0);
-    camera[1] = CameraServer.startAutomaticCapture(1);
+    camera1 = CameraServer.startAutomaticCapture(0);
+    camera2 = CameraServer.startAutomaticCapture(1);
     server = CameraServer.getServer();
   }
 
   //camera
   public void KeepOpen(){
-    camera[0].setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-    camera[1].setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+    camera1.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+    camera2.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
   }
-  public void setSource(int cameraID){
-    server.setSource(camera[cameraID]);
+
+  public void setSource1(){
+    server.setSource(camera1);
+  }
+  public void setSource2(){
+    server.setSource(camera2);
   }
 
  //gryo
