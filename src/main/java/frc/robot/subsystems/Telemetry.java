@@ -10,6 +10,8 @@ import edu.wpi.first.cscore.VideoSink;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,6 +20,12 @@ public class Telemetry extends SubsystemBase {
   //sensors
   public ADXRS450_Gyro gyro; 
   public Accelerometer accelmeter;
+  public DigitalInput hallSwitch;
+  public DigitalInput limitSwitch;
+
+  //servos
+  public Servo camServo;
+  
   
   //cameras
   private UsbCamera camera1;
@@ -27,6 +35,9 @@ public class Telemetry extends SubsystemBase {
   public Telemetry() {
     gyro = new ADXRS450_Gyro();
     accelmeter = new BuiltInAccelerometer();
+    hallSwitch = new DigitalInput(9);
+    limitSwitch = new DigitalInput(1);
+    camServo = new Servo(2);
 
     camera1 = CameraServer.startAutomaticCapture(0);
     camera2 = CameraServer.startAutomaticCapture(1);
@@ -37,6 +48,14 @@ public class Telemetry extends SubsystemBase {
   public void KeepOpen(){
     camera1.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
     camera2.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+  }
+
+  //servo
+  public void resetServo(){
+    camServo.setAngle(90);
+  }
+  public void setServoAngle(double angle){
+    camServo.setAngle(angle);
   }
 
   public void setSource1(){
@@ -73,5 +92,9 @@ public class Telemetry extends SubsystemBase {
     SmartDashboard.putNumber("AccelX", getAccelX());
     SmartDashboard.putNumber("AccelY", getAccelY());
     SmartDashboard.putNumber("AccelZ", getAccelZ());
+
+    SmartDashboard.putNumber("Cam Servo", camServo.getAngle());
+    //SmartDashboard.putBoolean("Hall Switch", hallSwitch.get());
+    //SmartDashboard.putBoolean("Limit Switch", limitSwitch.get());
   }
 }
