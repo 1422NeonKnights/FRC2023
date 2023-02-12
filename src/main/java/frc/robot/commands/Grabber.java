@@ -13,6 +13,8 @@ public class Grabber extends CommandBase {
   private final Claw claw;
   private final XboxController XboxStick;
 
+  private boolean toggle = false;
+
   /** Creates a new Grabber. */
   public Grabber(Claw claw, XboxController XboxStick) {
     this.claw = claw;
@@ -30,6 +32,15 @@ public class Grabber extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(XboxStick.getRightStickButtonPressed()){
+      if(toggle){
+        claw.disableCompressor();
+        toggle = false;
+      }else if(!toggle){
+        claw.enableCompressor();
+        toggle = true;
+      }
+    }
 
     if(XboxStick.getBButtonPressed()){
       claw.pitchUp();
