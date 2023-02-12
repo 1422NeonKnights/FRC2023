@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AutonomousConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.CameraMovement;
 import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.Grabber;
 import frc.robot.commands.auto.AutoCorrectionDrive;
@@ -46,6 +47,7 @@ public class RobotContainer {
   private final ArcadeDrive arcadeDrive;
   public static ElevatorCommand elevatorCommand;
   public static Grabber grabber;
+  public static CameraMovement cameraMovement;
 
   //Autonomous
   public static DriveTimedCommand driveTimedCommand;
@@ -70,23 +72,25 @@ public class RobotContainer {
     elevator = new Elevator();
     telemetry = new Telemetry();
 
+    //commands
     //drive commands
-    arcadeDrive = new ArcadeDrive(drivetrain, leftStick);
+    arcadeDrive = new ArcadeDrive(drivetrain, leftStick, telemetry);
     drivetrain.setDefaultCommand(arcadeDrive);
 
     grabber = new Grabber(claw, XboxStick);
     claw.setDefaultCommand(grabber);
-
-    //Elevator
-    elevatorCommand = new ElevatorCommand(elevator, XboxStick, vision);
+    //elevator commands
+    elevatorCommand = new ElevatorCommand(elevator, XboxStick, vision, telemetry);
     elevator.setDefaultCommand(elevatorCommand);
-
-    //commands
+    //auto commands
     driveTimedCommand = new DriveTimedCommand(drivetrain, 
                               AutonomousConstants.AUTO_DRIVE_TIME, AutonomousConstants.AUTO_SPEED);
     followDrive = new FollowDrive(drivetrain, vision);
     autoCorrectionDrive = new AutoCorrectionDrive(drivetrain, telemetry);
     lockTargetCommand = new LockTargetCommand(drivetrain, vision);
+    //telemetry commands
+    cameraMovement = new CameraMovement(telemetry);
+    telemetry.setDefaultCommand(cameraMovement);
 
     // Configure the trigger bindings
     configureBindings();
@@ -108,7 +112,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     //when button held
-    new JoystickButton(leftStick, 1).whileTrue(autoCorrectionDrive);
+    new JoystickButton(leftStick, 4).whileTrue(autoCorrectionDrive);
     new JoystickButton(leftStick, 2).whileTrue(followDrive);
     new JoystickButton(leftStick, 3).whileTrue(lockTargetCommand);
     
