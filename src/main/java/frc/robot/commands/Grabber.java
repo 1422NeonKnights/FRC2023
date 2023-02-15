@@ -42,10 +42,11 @@ public class Grabber extends CommandBase {
       }
     }
 
+    //open claw when pressed
     if(XboxStick.getBButtonPressed()){
-      claw.pitchUp();
+      claw.closeClaw();
     }else if(XboxStick.getAButtonReleased()){
-      claw.pitchDown();
+      claw.openClaw();
     }
   }
 

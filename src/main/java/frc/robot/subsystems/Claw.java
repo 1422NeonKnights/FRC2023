@@ -7,22 +7,23 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Claw extends SubsystemBase {
   //pneumatics variables
   private Compressor compressor;
-  private DoubleSolenoid grabber;
-  private boolean clawStat = false;
+  private DoubleSolenoid leftGrabber;
+  private DoubleSolenoid rightGrabber;
 
-  //Smartdashboard values
-  double compressorPressure;
+  private boolean clawStat = false;
 
   /** Creates a new Claw. */
   public Claw() {
     compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-    grabber = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 5);
+    leftGrabber = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 2);
+    rightGrabber = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 3, 4);
 
     disableCompressor();
   }
@@ -42,12 +43,16 @@ public class Claw extends SubsystemBase {
       return false;
     }
   }
-  public void pitchDown(){
-    grabber.set(DoubleSolenoid.Value.kReverse);
+
+  public void openClaw(){
+    leftGrabber.set(Value.kReverse);
+    rightGrabber.set(Value.kReverse);
     clawStat = false;
   }
-  public void pitchUp(){
-    grabber.set(DoubleSolenoid.Value.kForward);
+  
+  public void closeClaw(){
+    leftGrabber.set(Value.kForward);
+    rightGrabber.set(Value.kForward);
     clawStat = true;
   }
 
@@ -55,8 +60,6 @@ public class Claw extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putBoolean("Compressor Status", compressor.isEnabled());
     SmartDashboard.putBoolean("Claw Status", isClawOpen());
-    
-    SmartDashboard.putNumber("Compressor Voltage", compressor.getCurrent());
   }
   
 }

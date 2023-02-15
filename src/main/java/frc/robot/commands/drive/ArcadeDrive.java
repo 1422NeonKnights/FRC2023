@@ -37,6 +37,7 @@ public class ArcadeDrive extends CommandBase {
     if(leftstick.getTriggerPressed()){
       telemetry.resetGyroAngle();
     }
+    
     driveTrain.arcadeDrive(moveSpeed, rotateSpeed);
   }
 
