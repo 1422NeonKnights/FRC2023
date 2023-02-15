@@ -76,10 +76,10 @@ public class DriveTrain extends SubsystemBase {
     leftMotor2.enableCurrentLimit(true);
 
     //inversion
-    rightMotor1.setInverted(false);
-    rightMotor2.setInverted(false);
-    leftMotor1.setInverted(true);
-    leftMotor2.setInverted(true);
+    rightMotor1.setInverted(true);
+    rightMotor2.setInverted(true);
+    leftMotor1.setInverted(false);
+    leftMotor2.setInverted(false);
 
     //Open loop ramp(prevent sudden speed changes)
     rightMotor1.configOpenloopRamp(DriveConstants.DRIVE_RAMP_RATE, 15);

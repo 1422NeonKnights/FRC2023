@@ -32,7 +32,7 @@ public class ArcadeDrive extends CommandBase {
   public void execute() {
 
     double moveSpeed = -leftstick.getY() * DriveConstants.MAX_SPEED;
-    double rotateSpeed = leftstick.getX() * DriveConstants.MAX_SPEED;
+    double rotateSpeed = -leftstick.getX() * DriveConstants.MAX_SPEED;
 
     if(leftstick.getTriggerPressed()){
       telemetry.resetGyroAngle();
