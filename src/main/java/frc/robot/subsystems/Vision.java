@@ -9,6 +9,8 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.Conversions;
+import frc.robot.Constants.VisionConstants;
 
 public class Vision extends SubsystemBase {
   private final NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight-neon");
@@ -61,11 +63,26 @@ public class Vision extends SubsystemBase {
     }
   }
 
+  //d = (h2-h1) / tan(a1+a2)
+  //distance = height difference / tan(angle from parallel)
+  public double getLLGoalDistance() {
+    return (VisionConstants.GOAL_HEIGHT - VisionConstants.LIMELIGHT_MOUNT_HEIGHT) 
+            / Math.tan(VisionConstants.LIMELIGHT_MOUNT_ANGLE + Conversions.AngleToRadians(getVerticalOffset()));
+  }
+
+  //a1 = arctan((h2-h1)/d) - a2
+  public double getLLMountAngle() {
+    return (Math.atan((VisionConstants.GOAL_HEIGHT - VisionConstants.LIMELIGHT_MOUNT_HEIGHT)/VisionConstants.CALLIBRATED_DISTANCE) 
+            - Conversions.AngleToRadians(getVerticalOffset()));
+  }
+
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Horizontal Offset", getHorizontalOffset());
     SmartDashboard.putNumber("Vertical Offset", getVerticalOffset());
     SmartDashboard.putBoolean("Target Sensing", hasValidTarget());
     SmartDashboard.putNumber("Area", getDistance());
+    SmartDashboard.putNumber("Goal Distance", getLLGoalDistance());
   }
 }

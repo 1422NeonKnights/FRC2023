@@ -14,18 +14,20 @@ package frc.robot;
  */
 public final class Constants {
   public class DriveConstants{
+    //ID values
     public static final int DRIVETRAIN_LEFT_BACK_TALON = 2;  //2 2
     public static final int DRIVETRAIN_LEFT_FRONT_TALON = 1; //1 3
     public static final int DRIVETRAIN_RIGHT_FRONT_TALON = 0; //0 4
     public static final int DRIVETRAIN_RIGHT_BACK_TALON = 3; //3 5
 
+    //Joystick ID values
     public static final int LEFT_JOY = 0;
     public static final int RIGHT_JOY = 1;
     public static final int XBOX_JOY = 2;
 
     public static final double MAX_SPEED = 0.87;
 
-    public static final double DRIVE_RAMP_RATE = 0.35;
+    public static final double DRIVE_RAMP_RATE = 0.15;
   }
 
   public class AutonomousConstants{
@@ -41,8 +43,10 @@ public final class Constants {
   }
 
   public class ElevatorConstants{
+    //ID values
     public static final int TOWER_MOTOR_ID = 4;
     public static final int JIB_MOTOR_ID = 5; 
+
   }
 
   public class VisionConstants{
@@ -53,9 +57,28 @@ public final class Constants {
     public static final double HORIZONTAL_OFFSET_ALLOWANCE = 10;
     public static final double VERTICAL_OFFSET_ALLOWANCE = 7;
     public static final double DISTANCE_OFFSET_ALLOWANCE = 0.5;
+    public static final double LIMELIGHT_MOUNT_ANGLE = 0;
+
+    //inch
+    public static final double CALLIBRATED_DISTANCE = 46;
+    public static final double LIMELIGHT_MOUNT_HEIGHT = 11.5;
+    public static final double GOAL_HEIGHT = 25;
   }
 
   public class ClawConstants{
 
+  }
+
+  public class TelemetryConstants{
+    //ID values
+    public static final int CAM_SERVO_ID = 1;
+    public static final int MAX_HALLSWITCH_ID = 1;
+    public static final int MIN_HALLSWITCH_ID = 2;
+  }
+
+  public static class Conversions{
+    public static double AngleToRadians(double angle){
+      return angle * (Math.PI/180);
+    }
   }
 }
