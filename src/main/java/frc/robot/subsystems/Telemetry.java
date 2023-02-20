@@ -15,13 +15,14 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.TelemetryConstants;
 
 public class Telemetry extends SubsystemBase {
   //sensors
   public ADXRS450_Gyro gyro; 
   public Accelerometer accelmeter;
-  public DigitalInput hallSwitch;
-  public DigitalInput limitSwitch;
+  public DigitalInput upHallSwitch;
+  public DigitalInput downHallSwitch;
 
   //servos
   public Servo camServo;
@@ -35,9 +36,9 @@ public class Telemetry extends SubsystemBase {
   public Telemetry() {
     gyro = new ADXRS450_Gyro();
     accelmeter = new BuiltInAccelerometer();
-    hallSwitch = new DigitalInput(9);
-    limitSwitch = new DigitalInput(1);
-    camServo = new Servo(2);
+    upHallSwitch = new DigitalInput(TelemetryConstants.MAX_HALLSWITCH_ID);
+    downHallSwitch = new DigitalInput(TelemetryConstants.MIN_HALLSWITCH_ID);
+    camServo = new Servo(TelemetryConstants.CAM_SERVO_ID);
 
     camera1 = CameraServer.startAutomaticCapture(0);
     camera2 = CameraServer.startAutomaticCapture(1);
@@ -94,7 +95,7 @@ public class Telemetry extends SubsystemBase {
     SmartDashboard.putNumber("AccelZ", getAccelZ());
 
     SmartDashboard.putNumber("Cam Servo", camServo.getAngle());
-    //SmartDashboard.putBoolean("Hall Switch", hallSwitch.get());
-    //SmartDashboard.putBoolean("Limit Switch", limitSwitch.get());
+    SmartDashboard.putBoolean("Elevator Up", upHallSwitch.get());
+    SmartDashboard.putBoolean("Elevator Down", downHallSwitch.get());
   }
 }

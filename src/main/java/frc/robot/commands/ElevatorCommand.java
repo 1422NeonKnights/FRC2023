@@ -37,8 +37,8 @@ public class ElevatorCommand extends CommandBase {
   public void execute() {
     if (xboxStick.getYButtonPressed()) {
       elevator.elevatorUp();
-      //TODO: test out switches
-      if(telemetry.hallSwitch.get()){
+      //stop if max height
+      if(telemetry.upHallSwitch.get()){
          elevator.elevatorStop();
        }
     } else if(xboxStick.getYButtonReleased()) {
@@ -47,6 +47,10 @@ public class ElevatorCommand extends CommandBase {
 
     if (xboxStick.getXButtonPressed()) {
       elevator.elevatorDown();
+      //stop if min height
+      if(telemetry.downHallSwitch.get()){
+        elevator.elevatorStop();
+      }
     } else if(xboxStick.getXButtonReleased()) {
       elevator.elevatorStop();
     }
