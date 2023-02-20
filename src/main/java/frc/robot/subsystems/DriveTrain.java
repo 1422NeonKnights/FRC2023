@@ -56,19 +56,16 @@ public class DriveTrain extends SubsystemBase {
     rightMotor2.configPeakCurrentLimit(35, 10);
     leftMotor1.configPeakCurrentLimit(35, 10);
     leftMotor2.configPeakCurrentLimit(35, 10);
-
     // duration
     rightMotor1.configPeakCurrentDuration(200, 10);
     rightMotor2.configPeakCurrentDuration(200, 10);
     leftMotor1.configPeakCurrentDuration(200, 10);
     leftMotor2.configPeakCurrentDuration(200, 10);
-
     // continuous
     rightMotor1.configContinuousCurrentLimit(30, 10);
     rightMotor2.configContinuousCurrentLimit(30, 10);
     leftMotor1.configContinuousCurrentLimit(30, 10);
     leftMotor2.configContinuousCurrentLimit(30, 10);
-
     // enable
     rightMotor1.enableCurrentLimit(true);
     rightMotor2.enableCurrentLimit(true);
@@ -82,10 +79,34 @@ public class DriveTrain extends SubsystemBase {
     leftMotor2.setInverted(false);
 
     //Open loop ramp(prevent sudden speed changes)
-    rightMotor1.configOpenloopRamp(DriveConstants.DRIVE_RAMP_RATE, 15);
-    rightMotor2.configOpenloopRamp(DriveConstants.DRIVE_RAMP_RATE, 15);
-    leftMotor1.configOpenloopRamp(DriveConstants.DRIVE_RAMP_RATE, 15);
-    leftMotor2.configOpenloopRamp(DriveConstants.DRIVE_RAMP_RATE, 15);
+    rightMotor1.configOpenloopRamp(DriveConstants.DRIVE_RAMP_RATE);
+    rightMotor2.configOpenloopRamp(DriveConstants.DRIVE_RAMP_RATE);
+    leftMotor1.configOpenloopRamp(DriveConstants.DRIVE_RAMP_RATE);
+    leftMotor2.configOpenloopRamp(DriveConstants.DRIVE_RAMP_RATE);
+    rightMotor1.configClosedloopRamp(DriveConstants.DRIVE_RAMP_RATE);
+    rightMotor2.configClosedloopRamp(DriveConstants.DRIVE_RAMP_RATE);
+    leftMotor1.configClosedloopRamp(DriveConstants.DRIVE_RAMP_RATE);
+    leftMotor2.configClosedloopRamp(DriveConstants.DRIVE_RAMP_RATE);
+
+    // Decreases power to extend battery life. Can be done manually if needed using motor.configVoltageCompSaturation(VOLTS)
+    rightMotor1.enableVoltageCompensation(true);
+    rightMotor2.enableVoltageCompensation(true);
+    leftMotor1.enableVoltageCompensation(true);
+    leftMotor2.enableVoltageCompensation(true);
+    
+    // Makes motors stop if they have not been updated in a set amout of time. AKA MOTOR SAFETY
+    rightMotor1.setSafetyEnabled(true);
+    rightMotor2.setSafetyEnabled(true);
+    leftMotor1.setSafetyEnabled(true);
+    leftMotor2.setSafetyEnabled(true);
+
+    /* Copy paste code cuz im lazy
+     rightMotor1.
+     rightMotor2.
+     leftMotor1.
+     leftMotor2.
+    */
+    
 
     //motor controller groups
     rightMotors = new MotorControllerGroup(rightMotor1, rightMotor2);
@@ -127,6 +148,10 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {
+    rightMotor1.feed();
+    rightMotor2.feed();
+    leftMotor1.feed();
+    leftMotor2.feed();
   
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("FR Volts", rightMotor1.getBusVoltage());
