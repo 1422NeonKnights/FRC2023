@@ -24,6 +24,7 @@ public class AutoCorrectionDrive extends CommandBase {
     this.telemetry = telemetry;
 
     addRequirements(driveTrain);
+    addRequirements(telemetry);
   }
 
   // Called when the command is initially scheduled.

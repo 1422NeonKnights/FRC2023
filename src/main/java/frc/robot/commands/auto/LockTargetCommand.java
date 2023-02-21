@@ -24,6 +24,7 @@ public class LockTargetCommand extends CommandBase {
     this.vision = vision;
 
     addRequirements(driveTrain);
+    addRequirements(vision);
   }
 
   // Called when the command is initially scheduled.
