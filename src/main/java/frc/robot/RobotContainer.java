@@ -12,16 +12,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.AutonomousConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.CameraMovement;
 import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.Grabber;
 import frc.robot.commands.auto.AutoCorrectionDrive;
+import frc.robot.commands.auto.DriveForDistance;
 import frc.robot.commands.auto.DriveTimedCommand;
 import frc.robot.commands.auto.FollowDrive;
 import frc.robot.commands.auto.LockTargetCommand;
+import frc.robot.commands.auto.sequential.TaxiAutonomous;
 import frc.robot.commands.drive.ArcadeDrive;
+import frc.robot.commands.drive.XboxDrive;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -44,7 +46,8 @@ public class RobotContainer {
   private Telemetry telemetry;
 
   //commands
-  private final ArcadeDrive arcadeDrive;
+  public final ArcadeDrive arcadeDrive;
+  public final XboxDrive xboxDrive;
   public static ElevatorCommand elevatorCommand;
   public static Grabber grabber;
   public static CameraMovement cameraMovement;
@@ -54,6 +57,9 @@ public class RobotContainer {
   public static FollowDrive followDrive;
   public static AutoCorrectionDrive autoCorrectionDrive;
   public static LockTargetCommand lockTargetCommand;
+  public static DriveForDistance driveForDistance;
+  //sequential
+  private final TaxiAutonomous taxiAutonomous;
 
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
   
@@ -75,19 +81,24 @@ public class RobotContainer {
     //commands
     //drive commands
     arcadeDrive = new ArcadeDrive(drivetrain, leftStick, telemetry);
+    xboxDrive = new XboxDrive(drivetrain, XboxStick);
     drivetrain.setDefaultCommand(arcadeDrive);
 
     grabber = new Grabber(claw, XboxStick);
     claw.setDefaultCommand(grabber);
+
     //elevator commands
     elevatorCommand = new ElevatorCommand(elevator, XboxStick, vision, telemetry);
     elevator.setDefaultCommand(elevatorCommand);
+
     //auto commands
-    driveTimedCommand = new DriveTimedCommand(drivetrain, 
-                              AutonomousConstants.AUTO_DRIVE_TIME, AutonomousConstants.AUTO_SPEED);
     followDrive = new FollowDrive(drivetrain, vision);
     autoCorrectionDrive = new AutoCorrectionDrive(drivetrain, telemetry);
     lockTargetCommand = new LockTargetCommand(drivetrain, vision);
+
+    //squential auto
+    taxiAutonomous = new TaxiAutonomous(drivetrain, telemetry);
+
     //telemetry commands
     cameraMovement = new CameraMovement(telemetry);
     telemetry.setDefaultCommand(cameraMovement);
@@ -119,10 +130,8 @@ public class RobotContainer {
   }
 
   private void configureAutoChooser() {
-    autoChooser.setDefaultOption("Gyro Correction", autoCorrectionDrive);
-    autoChooser.addOption("Drive For 3 Seconds", driveTimedCommand);
-    autoChooser.addOption("Limelight Follow Drive", followDrive);
-    autoChooser.addOption("Lock Target", lockTargetCommand);
+    autoChooser.setDefaultOption("Taxi", taxiAutonomous);
+    //autoChooser.addOption();
     
     SmartDashboard.putData(autoChooser);
   }

@@ -8,19 +8,16 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Vision;
 
 public class XboxDrive extends CommandBase {
   
   private DriveTrain driveTrain;
   private XboxController xboxStick;
-  private Vision vision;
 
   /** Creates a new XboxDrive. */
-  public XboxDrive(DriveTrain driveTrain, XboxController xboxStick, Vision vision) {
+  public XboxDrive(DriveTrain driveTrain, XboxController xboxStick) {
     this.driveTrain = driveTrain;
     this.xboxStick = xboxStick;
-    this.vision = vision;
 
     addRequirements(driveTrain);
   }
@@ -32,17 +29,6 @@ public class XboxDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(xboxStick.getLeftBumperPressed()){
-      vision.setLEDMode("off");
-    }else if(xboxStick.getLeftBumperReleased()) {
-      vision.setLEDMode("on");
-    }
-
-    if(xboxStick.getRightBumperPressed()){
-      vision.setCamMode("vision");
-      vision.setCamMode("drive");
-    }
-
     double moveSpeed = xboxStick.getLeftY() * DriveConstants.MAX_SPEED;
     double rotateSpeed = xboxStick.getRightX() * DriveConstants.MAX_SPEED;
 
