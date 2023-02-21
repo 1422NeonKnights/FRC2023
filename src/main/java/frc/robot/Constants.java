@@ -72,13 +72,20 @@ public final class Constants {
   public class TelemetryConstants{
     //ID values
     public static final int CAM_SERVO_ID = 1;
-    public static final int MAX_HALLSWITCH_ID = 1;
-    public static final int MIN_HALLSWITCH_ID = 2;
+    public static final int MAX_HALLSWITCH_ID = 2;
+    public static final int MIN_HALLSWITCH_ID = 3;
+
+    //encoder
+    public static final double WHEEL_CIRCUM = 6*(Math.PI);
   }
 
   public static class Conversions{
     public static double AngleToRadians(double angle){
       return angle * (Math.PI/180);
+    }
+
+    public static double tickToInches(double ticks){
+      return ticks * (Math.PI/90);
     }
   }
 }

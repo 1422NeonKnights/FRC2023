@@ -11,6 +11,7 @@ import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,6 +24,7 @@ public class Telemetry extends SubsystemBase {
   public Accelerometer accelmeter;
   public DigitalInput upHallSwitch;
   public DigitalInput downHallSwitch;
+  public Encoder throughbore;
 
   //servos
   public Servo camServo;
@@ -34,15 +36,28 @@ public class Telemetry extends SubsystemBase {
   private VideoSink server;
   /** Creates a new Telemetry. */
   public Telemetry() {
+    //gyro
     gyro = new ADXRS450_Gyro();
+    //aceelerometer(built in roborio)
     accelmeter = new BuiltInAccelerometer();
+
+    //hall effect switches
     upHallSwitch = new DigitalInput(TelemetryConstants.MAX_HALLSWITCH_ID);
     downHallSwitch = new DigitalInput(TelemetryConstants.MIN_HALLSWITCH_ID);
+
+    //encoders
+    throughbore = new Encoder(0, 1);
+
+    //servo
     camServo = new Servo(TelemetryConstants.CAM_SERVO_ID);
 
+    //cameras
     camera1 = CameraServer.startAutomaticCapture(0);
     camera2 = CameraServer.startAutomaticCapture(1);
     server = CameraServer.getServer();
+
+    //configure
+    configureEncoders();
   }
 
   //camera
@@ -85,6 +100,25 @@ public class Telemetry extends SubsystemBase {
     return accelmeter.getX();
   }
 
+  //encoder
+  public void configureEncoders(){
+    //2048 pulses per rotation
+    //robot moves 6pi in per rotation
+    throughbore.setDistancePerPulse(TelemetryConstants.WHEEL_CIRCUM/2048);
+    throughbore.setReverseDirection(true);
+  }
+  public void resetEncoder(){
+    throughbore.reset();
+  }
+  public void getEncoderStop(){
+    throughbore.getStopped();
+  }
+  public double getEncoderDistance(){
+    return throughbore.getDistance();
+  }
+
+
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -97,5 +131,7 @@ public class Telemetry extends SubsystemBase {
     SmartDashboard.putNumber("Cam Servo", camServo.getAngle());
     SmartDashboard.putBoolean("Elevator Up", upHallSwitch.get());
     SmartDashboard.putBoolean("Elevator Down", downHallSwitch.get());
+
+    SmartDashboard.putNumber("Encoder", throughbore.getDistance());
   }
 }
