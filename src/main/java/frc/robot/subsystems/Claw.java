@@ -22,10 +22,8 @@ public class Claw extends SubsystemBase {
   /** Creates a new Claw. */
   public Claw() {
     compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-    leftGrabber = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 2);
-    rightGrabber = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 3, 4);
-
-    disableCompressor();
+    leftGrabber = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+    rightGrabber = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
   }
 
   public void enableCompressor(){
