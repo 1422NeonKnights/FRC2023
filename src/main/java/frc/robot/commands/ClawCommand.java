@@ -54,6 +54,7 @@ public class ClawCommand extends CommandBase {
       }
     }
 
+    //open half claw when presesd B for cubes
     if(XboxStick.getBButtonPressed()) {
       if(clawToggle) {
         claw.closeClaw();
