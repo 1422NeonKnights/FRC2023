@@ -20,6 +20,7 @@ import frc.robot.commands.ClawCommand;
 import frc.robot.commands.auto.AutoCorrectionDrive;
 import frc.robot.commands.auto.DriveForDistance;
 import frc.robot.commands.auto.DriveTimedCommand;
+import frc.robot.commands.auto.ElevatorLock;
 import frc.robot.commands.auto.FollowDrive;
 import frc.robot.commands.auto.LockTargetCommand;
 import frc.robot.commands.auto.sequential.TaxiAutonomous;
@@ -60,6 +61,7 @@ public class RobotContainer {
   public static AutoCorrectionDrive autoCorrectionDrive;
   public static LockTargetCommand lockTargetCommand;
   public static DriveForDistance driveForDistance;
+  public static ElevatorLock elevatorLock;
   //sequential
   private final TaxiAutonomous taxiAutonomous;
 
@@ -75,7 +77,7 @@ public class RobotContainer {
   public RobotContainer() {
     //subsystems
     telemetry = new Telemetry();
-    drivetrain = new DriveTrain(telemetry);
+    drivetrain = new DriveTrain();
     claw = new Claw();
     arm = new Arm();
     vision = new Vision();
@@ -104,6 +106,7 @@ public class RobotContainer {
     followDrive = new FollowDrive(drivetrain, vision);
     autoCorrectionDrive = new AutoCorrectionDrive(drivetrain, telemetry);
     lockTargetCommand = new LockTargetCommand(drivetrain, vision);
+    elevatorLock = new ElevatorLock(elevator, vision);
 
     //squential auto
     taxiAutonomous = new TaxiAutonomous(drivetrain, telemetry);
@@ -131,6 +134,7 @@ public class RobotContainer {
     new JoystickButton(leftStick, 4).whileTrue(autoCorrectionDrive);
     new JoystickButton(leftStick, 2).whileTrue(followDrive);
     new JoystickButton(leftStick, 3).whileTrue(lockTargetCommand);
+    new JoystickButton(XboxStick, 5).whileTrue(elevatorCommand);
     
   }
 

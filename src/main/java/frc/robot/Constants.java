@@ -48,7 +48,7 @@ public final class Constants {
     public static final int TOWER_MOTOR_RIGHT_ID = 5; 
     public static final int TOWER_MOTOR_LEFT_ID = 4;
     public static final double ELEVATOR_MAX_SPEED = 0.4;
-
+    
   }
 
   public class ArmConstants{
