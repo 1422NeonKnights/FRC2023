@@ -27,7 +27,8 @@ public final class Constants {
 
     public static final double MAX_SPEED = 0.87;
 
-    public static final double DRIVE_RAMP_RATE = 0.15;
+    public static final double DRIVE_RAMP_RATE = 0.35;
+    public static final double DRIVE_VOLTAGE_COMP = 9;
   }
 
   public class AutonomousConstants{
@@ -44,9 +45,15 @@ public final class Constants {
 
   public class ElevatorConstants{
     //ID values
-    public static final int TOWER_MOTOR_ID = 4;
-    public static final int JIB_MOTOR_ID = 5; 
+    public static final int TOWER_MOTOR_RIGHT_ID = 5; 
+    public static final int TOWER_MOTOR_LEFT_ID = 4;
+    public static final double ELEVATOR_MAX_SPEED = 0.4;
 
+  }
+
+  public class ArmConstants{
+    public static final int ARM_MOTOR_ID = 6;
+    public static final double ARM_MAXI_SPEED = 0.3;
   }
 
   public class VisionConstants{
@@ -71,9 +78,17 @@ public final class Constants {
 
   public class TelemetryConstants{
     //ID values
-    public static final int CAM_SERVO_ID = 1;
-    public static final int MAX_HALLSWITCH_ID = 2;
-    public static final int MIN_HALLSWITCH_ID = 3;
+    public static final int UP_LIMITSWITCH_ID = 4;
+    public static final int DOWN_LIMITSWITCH_ID = 5;
+
+    public static final int MAX_HALLSWITCH_ID = 6;
+    public static final int MIN_HALLSWITCH_ID = 7;
+
+    public static final int RIGHT_ENCODER_ID = 0;
+    public static final int RIGHT_ENCODER_ID2 = 1;
+
+    public static final int LEFT_ENCODER_ID = 2;
+    public static final int LEFT_ENCODER_ID2 = 3;
 
     //encoder
     public static final double WHEEL_CIRCUM = 6*(Math.PI);
