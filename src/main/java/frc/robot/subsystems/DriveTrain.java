@@ -8,7 +8,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 public class DriveTrain extends SubsystemBase {
-  private Telemetry telemetry;
 
   //define TalonSRX
   WPI_TalonSRX rightMotor1;
@@ -29,11 +27,9 @@ public class DriveTrain extends SubsystemBase {
   MotorControllerGroup rightMotors;
 
   DifferentialDrive differentialDrive;
-  DifferentialDriveOdometry differentialDriveOdometry;
 
   /** Creates a new DriveTrain. */
-  public DriveTrain(Telemetry telemetry) {
-    this.telemetry = telemetry;
+  public DriveTrain() {
     //config motors
     // create motors
     rightMotor1 = new WPI_TalonSRX(DriveConstants.DRIVETRAIN_RIGHT_FRONT_TALON);
@@ -121,12 +117,6 @@ public class DriveTrain extends SubsystemBase {
 
     //differential drive for arcade/tank
     differentialDrive = new DifferentialDrive(leftMotors, rightMotors);
-    
-    differentialDriveOdometry = new DifferentialDriveOdometry(
-      telemetry.gyro.getRotation2d(), 
-      telemetry.getLeftEncoderDistance(), 
-      telemetry.getRightEncoderDistance());
-
   }
 
 
@@ -161,10 +151,6 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    differentialDriveOdometry.update(
-      telemetry.gyro.getRotation2d(), 
-      telemetry.getLeftEncoderDistance(), 
-      telemetry.getRightEncoderDistance());
 
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("FR Volts", rightMotor1.getBusVoltage());
