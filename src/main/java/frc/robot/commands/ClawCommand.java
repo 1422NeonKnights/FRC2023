@@ -8,15 +8,16 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Claw;
 
-public class Grabber extends CommandBase {
+public class ClawCommand extends CommandBase {
 
   private final Claw claw;
   private final XboxController XboxStick;
 
   private boolean toggle = false;
+  private boolean clawToggle = false;
 
   /** Creates a new Grabber. */
-  public Grabber(Claw claw, XboxController XboxStick) {
+  public ClawCommand(Claw claw, XboxController XboxStick) {
     this.claw = claw;
     this.XboxStick = XboxStick;
 
@@ -32,7 +33,7 @@ public class Grabber extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(XboxStick.getRightStickButtonPressed()){
+    if(XboxStick.getYButtonPressed()){
       if(toggle){
         claw.disableCompressor();
         toggle = false;
@@ -42,12 +43,27 @@ public class Grabber extends CommandBase {
       }
     }
 
-    //open claw when pressed
-    if(XboxStick.getBButtonPressed()){
-      claw.closeClaw();
-    }else if(XboxStick.getAButtonReleased()){
-      claw.openClaw();
+    //open claw when pressed A for cones
+    if(XboxStick.getAButtonPressed()) {
+      if(clawToggle) {
+        claw.closeClaw();
+        clawToggle = false;
+      } else {
+        claw.coneOpenClaw();
+        clawToggle = true;
+      }
     }
+
+    if(XboxStick.getBButtonPressed()) {
+      if(clawToggle) {
+        claw.closeClaw();
+        clawToggle = false;
+      } else {
+        claw.cubeOpenClaw();
+        clawToggle = true;
+      }
+    }
+    
   }
 
   // Called once the command ends or is interrupted.
