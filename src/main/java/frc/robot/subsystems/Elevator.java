@@ -12,49 +12,56 @@ import frc.robot.Constants.ElevatorConstants;
 
 public class Elevator extends SubsystemBase {
   
-  WPI_TalonSRX towerMotor;
-  WPI_TalonSRX jibMotor;
-
+  WPI_TalonSRX towerRightMotor;
+  WPI_TalonSRX towerLeftMotor;
   
   /** Creates a new Elevator. */
   public Elevator() {
     // create motors
-    towerMotor = new WPI_TalonSRX(ElevatorConstants.TOWER_MOTOR_ID);
-    jibMotor = new WPI_TalonSRX(ElevatorConstants.JIB_MOTOR_ID);
+    towerLeftMotor = new WPI_TalonSRX(ElevatorConstants.TOWER_MOTOR_LEFT_ID);
+    towerRightMotor = new WPI_TalonSRX(ElevatorConstants.TOWER_MOTOR_RIGHT_ID);
 
     // factory reset
-    towerMotor.configFactoryDefault();
-    jibMotor.configFactoryDefault();
+    towerLeftMotor.configFactoryDefault();
+    towerRightMotor.configFactoryDefault();
 
     // break mode
-    towerMotor.setNeutralMode(NeutralMode.Brake);
-    jibMotor.setNeutralMode(NeutralMode.Brake);
+    towerLeftMotor.setNeutralMode(NeutralMode.Brake);
+    towerRightMotor.setNeutralMode(NeutralMode.Brake);
 
     //peak current
-    towerMotor.configPeakCurrentLimit(35, 10);
-    jibMotor.configPeakCurrentLimit(35, 10);
+    towerLeftMotor.configPeakCurrentLimit(35, 10);
+    towerRightMotor.configPeakCurrentLimit(35, 10);
 
     // duartion
-    towerMotor.configPeakCurrentDuration(200, 10);
-    jibMotor.configPeakCurrentDuration(200, 10);
+    towerLeftMotor.configPeakCurrentDuration(200, 10);
+    towerRightMotor.configPeakCurrentDuration(200, 10);
 
-    //continuos
-    towerMotor.configContinuousCurrentLimit(30, 10);
-    jibMotor.configContinuousCurrentLimit(30, 10);
+    //continuous
+    towerLeftMotor.configContinuousCurrentLimit(30, 10);
+    towerRightMotor.configContinuousCurrentLimit(30, 10);
 
     // enable
-    towerMotor.enableCurrentLimit(true);
-    jibMotor.enableCurrentLimit(true);
+    towerLeftMotor.enableCurrentLimit(true);
+    towerRightMotor.enableCurrentLimit(true);
+
+    towerRightMotor.setInverted(true);
+    towerLeftMotor.setInverted(true);
   }
 
-  public void elevatorUp() {
-    towerMotor.set(1);
+  public void elevatorMove(double speed) {
+    towerRightMotor.set(speed * ElevatorConstants.ELEVATOR_MAX_SPEED);
+    towerLeftMotor.set(speed * ElevatorConstants.ELEVATOR_MAX_SPEED);
   }
-  public void elevatorDown() {
-    towerMotor.set(-1);
+  /* 
+  public void elevatorDown(double speed) {
+    towerRightMotor.set(speed);
+    towerLeftMotor.set(speed);
   }
+  */
   public void elevatorStop() {
-    towerMotor.set(0);
+    towerRightMotor.set(0);
+    towerLeftMotor.set(0);
   }
 
   @Override

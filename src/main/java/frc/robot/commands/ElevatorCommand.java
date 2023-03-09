@@ -35,25 +35,24 @@ public class ElevatorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (xboxStick.getYButtonPressed()) {
-      elevator.elevatorUp();
-      //stop if max height
-      if(telemetry.upHallSwitch.get()){
-         elevator.elevatorStop();
-       }
-    } else if(xboxStick.getYButtonReleased()) {
-      elevator.elevatorStop();
-    }
-
-    if (xboxStick.getXButtonPressed()) {
-      elevator.elevatorDown();
-      //stop if min height
-      if(telemetry.downHallSwitch.get()){
+    double xboxY = -xboxStick.getLeftY();
+    
+    if(!(telemetry.upHallSwitch.get())) {
+      if(xboxY < 0) {
+        elevator.elevatorMove(xboxY);
+      }else{
         elevator.elevatorStop();
       }
-    } else if(xboxStick.getXButtonReleased()) {
-      elevator.elevatorStop();
+    } else if (!(telemetry.downHallSwitch.get())) {
+      if(xboxY > 0) {
+        elevator.elevatorMove(xboxY);
+      }else{
+        elevator.elevatorStop();
+      }
+    } else {
+      elevator.elevatorMove(xboxY);
     }
+    
   }
 
   // Called once the command ends or is interrupted.
