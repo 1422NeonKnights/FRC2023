@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,20 +23,22 @@ public class Telemetry extends SubsystemBase {
   public Accelerometer accelmeter;
   public DigitalInput upHallSwitch;
   public DigitalInput downHallSwitch;
-  public Encoder throughbore;
+  public DigitalInput upLimitSwitch;
+  public DigitalInput downLimitSwitch;
 
-  //servos
-  public Servo camServo;
-  
+  public Encoder leftEncoder;
+  public Encoder rightEncoder;
   
   //cameras
   private UsbCamera camera1;
   private UsbCamera camera2;
   private VideoSink server;
+
   /** Creates a new Telemetry. */
   public Telemetry() {
     //gyro
     gyro = new ADXRS450_Gyro();
+
     //aceelerometer(built in roborio)
     accelmeter = new BuiltInAccelerometer();
 
@@ -45,11 +46,13 @@ public class Telemetry extends SubsystemBase {
     upHallSwitch = new DigitalInput(TelemetryConstants.MAX_HALLSWITCH_ID);
     downHallSwitch = new DigitalInput(TelemetryConstants.MIN_HALLSWITCH_ID);
 
-    //encoders
-    throughbore = new Encoder(0, 1);
+    //limit switches
+    upLimitSwitch = new DigitalInput(TelemetryConstants.UP_LIMITSWITCH_ID);
+    downLimitSwitch = new DigitalInput(TelemetryConstants.DOWN_LIMITSWITCH_ID);
 
-    //servo
-    camServo = new Servo(TelemetryConstants.CAM_SERVO_ID);
+    //encoders
+    leftEncoder = new Encoder(TelemetryConstants.LEFT_ENCODER_ID, TelemetryConstants.LEFT_ENCODER_ID2);
+    rightEncoder = new Encoder(TelemetryConstants.RIGHT_ENCODER_ID, TelemetryConstants.RIGHT_ENCODER_ID2);
 
     //cameras
     camera1 = CameraServer.startAutomaticCapture(0);
@@ -64,14 +67,6 @@ public class Telemetry extends SubsystemBase {
   public void KeepOpen(){
     camera1.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
     camera2.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-  }
-
-  //servo
-  public void resetServo(){
-    camServo.setAngle(90);
-  }
-  public void setServoAngle(double angle){
-    camServo.setAngle(angle);
   }
 
   public void setSource1(){
@@ -104,20 +99,22 @@ public class Telemetry extends SubsystemBase {
   public void configureEncoders(){
     //2048 pulses per rotation
     //robot moves 6pi in per rotation
-    throughbore.setDistancePerPulse(TelemetryConstants.WHEEL_CIRCUM/2048);
-    throughbore.setReverseDirection(true);
+    leftEncoder.setDistancePerPulse(TelemetryConstants.WHEEL_CIRCUM/2048);
+    leftEncoder.setReverseDirection(true);
+    rightEncoder.setDistancePerPulse(TelemetryConstants.WHEEL_CIRCUM/2048);
+    rightEncoder.setReverseDirection(false);
   }
   public void resetEncoder(){
-    throughbore.reset();
+    rightEncoder.reset();
+    leftEncoder.reset();
   }
-  public void getEncoderStop(){
-    throughbore.getStopped();
+  public double getRightEncoderDistance(){
+    return rightEncoder.getDistance();
   }
-  public double getEncoderDistance(){
-    return throughbore.getDistance();
+  
+  public double getLeftEncoderDistance(){
+    return leftEncoder.getDistance();
   }
-
-
 
   @Override
   public void periodic() {
@@ -128,10 +125,13 @@ public class Telemetry extends SubsystemBase {
     SmartDashboard.putNumber("AccelY", getAccelY());
     SmartDashboard.putNumber("AccelZ", getAccelZ());
 
-    SmartDashboard.putNumber("Cam Servo", camServo.getAngle());
     SmartDashboard.putBoolean("Elevator Up", upHallSwitch.get());
     SmartDashboard.putBoolean("Elevator Down", downHallSwitch.get());
 
-    SmartDashboard.putNumber("Encoder", throughbore.getDistance());
+    SmartDashboard.putNumber("Right Encoder", rightEncoder.getDistance());
+    SmartDashboard.putNumber("Left Encoder", leftEncoder.getDistance());
+
+    SmartDashboard.putBoolean("Arm Max", upLimitSwitch.get());
+    SmartDashboard.putBoolean("Arm Min", downLimitSwitch.get());
   }
 }
