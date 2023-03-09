@@ -35,7 +35,7 @@ public class DriveForDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(telemetry.getEncoderDistance() <= distanceInInches){
+    if(telemetry.getRightEncoderDistance() <= distanceInInches){
       driveTrain.tankDrive(AutonomousConstants.AUTO_SPEED, AutonomousConstants.AUTO_SPEED);
     }
   }

@@ -8,17 +8,15 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Telemetry;
 
 public class ArcadeDrive extends CommandBase {
   private final DriveTrain driveTrain;
   private final Joystick leftstick;
-  private Telemetry telemetry;
+
   /** Creates a new ArcadeDrive. */
-  public ArcadeDrive(DriveTrain driveTrain, Joystick leftstick, Telemetry telemetry) {
+  public ArcadeDrive(DriveTrain driveTrain, Joystick leftstick) {
     this.driveTrain = driveTrain;
     this.leftstick = leftstick;
-    this.telemetry = telemetry;
 
     addRequirements(driveTrain);
   }
@@ -34,10 +32,6 @@ public class ArcadeDrive extends CommandBase {
     double moveSpeed = -leftstick.getY() * DriveConstants.MAX_SPEED;
     double rotateSpeed = -leftstick.getX() * DriveConstants.MAX_SPEED;
 
-    if(leftstick.getTriggerPressed()){
-      telemetry.resetGyroAngle();
-    }
-    
     driveTrain.arcadeDrive(moveSpeed, rotateSpeed);
   }
 
