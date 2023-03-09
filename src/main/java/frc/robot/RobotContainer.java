@@ -13,9 +13,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.commands.CameraMovement;
+import frc.robot.commands.ArmCommand;
+import frc.robot.commands.CameraCommand;
 import frc.robot.commands.ElevatorCommand;
-import frc.robot.commands.Grabber;
+import frc.robot.commands.ClawCommand;
 import frc.robot.commands.auto.AutoCorrectionDrive;
 import frc.robot.commands.auto.DriveForDistance;
 import frc.robot.commands.auto.DriveTimedCommand;
@@ -23,7 +24,7 @@ import frc.robot.commands.auto.FollowDrive;
 import frc.robot.commands.auto.LockTargetCommand;
 import frc.robot.commands.auto.sequential.TaxiAutonomous;
 import frc.robot.commands.drive.ArcadeDrive;
-import frc.robot.commands.drive.XboxDrive;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -41,16 +42,17 @@ public class RobotContainer {
   //subsystems
   public final DriveTrain drivetrain;
   public final Claw claw;
+  public final Arm arm;
   public final Elevator elevator;
   private Vision vision;
   private Telemetry telemetry;
 
   //commands
   public final ArcadeDrive arcadeDrive;
-  public final XboxDrive xboxDrive;
   public static ElevatorCommand elevatorCommand;
-  public static Grabber grabber;
-  public static CameraMovement cameraMovement;
+  public static ClawCommand clawCommand;
+  private final CameraCommand cameraCommand;
+  private final ArmCommand armCommand;
 
   //Autonomous
   public static DriveTimedCommand driveTimedCommand;
@@ -72,24 +74,31 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     //subsystems
-    drivetrain = new DriveTrain();
+    telemetry = new Telemetry();
+    drivetrain = new DriveTrain(telemetry);
     claw = new Claw();
+    arm = new Arm();
     vision = new Vision();
     elevator = new Elevator();
-    telemetry = new Telemetry();
 
     //commands
     //drive commands
-    arcadeDrive = new ArcadeDrive(drivetrain, leftStick, telemetry);
-    xboxDrive = new XboxDrive(drivetrain, XboxStick);
+    arcadeDrive = new ArcadeDrive(drivetrain, leftStick);
     drivetrain.setDefaultCommand(arcadeDrive);
 
-    grabber = new Grabber(claw, XboxStick);
-    claw.setDefaultCommand(grabber);
+    clawCommand = new ClawCommand(claw, XboxStick);
+    claw.setDefaultCommand(clawCommand);
 
     //elevator commands
     elevatorCommand = new ElevatorCommand(elevator, XboxStick, vision, telemetry);
     elevator.setDefaultCommand(elevatorCommand);
+
+    armCommand = new ArmCommand(arm, XboxStick, telemetry);
+    arm.setDefaultCommand(armCommand);
+
+    //Camera
+    cameraCommand = new CameraCommand(telemetry, leftStick);
+    telemetry.setDefaultCommand(cameraCommand);
 
     //auto commands
     followDrive = new FollowDrive(drivetrain, vision);
@@ -98,10 +107,6 @@ public class RobotContainer {
 
     //squential auto
     taxiAutonomous = new TaxiAutonomous(drivetrain, telemetry);
-
-    //telemetry commands
-    cameraMovement = new CameraMovement(telemetry);
-    telemetry.setDefaultCommand(cameraMovement);
 
     // Configure the trigger bindings
     configureBindings();
@@ -131,6 +136,7 @@ public class RobotContainer {
 
   private void configureAutoChooser() {
     autoChooser.setDefaultOption("Taxi", taxiAutonomous);
+    //TODO: Make autonomous sequential commands and add options
     //autoChooser.addOption();
     
     SmartDashboard.putData(autoChooser);
