@@ -1,13 +1,17 @@
 {
   "HALProvider": {
+    "Other Devices": {
+      "Talon SRX[4]": {
+        "header": {
+          "open": true
+        }
+      }
+    },
     "Solenoids": {
       "0": {
         "header": {
           "open": true
         }
-      },
-      "window": {
-        "visible": true
       }
     }
   },
