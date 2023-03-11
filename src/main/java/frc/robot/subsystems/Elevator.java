@@ -49,9 +49,14 @@ public class Elevator extends SubsystemBase {
     towerLeftMotor.setInverted(true);
   }
 
-  public void elevatorMove(double speed) {
-    towerRightMotor.set(speed * ElevatorConstants.ELEVATOR_MAX_SPEED);
-    towerLeftMotor.set(speed * ElevatorConstants.ELEVATOR_MAX_SPEED);
+  public void elevatorMoveUp(double speed) {
+    towerRightMotor.set(speed * ElevatorConstants.ELEVATOR_MAX_UP_SPEED);
+    towerLeftMotor.set(speed * ElevatorConstants.ELEVATOR_MAX_UP_SPEED);
+  }
+
+  public void elevatorMoveDown(double speed) {
+    towerRightMotor.set(speed * ElevatorConstants.ELEVATOR_MAX_DOWN_SPEED);
+    towerLeftMotor.set(speed * ElevatorConstants.ELEVATOR_MAX_DOWN_SPEED);
   }
   /* 
   public void elevatorDown(double speed) {

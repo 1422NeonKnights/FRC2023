@@ -74,6 +74,8 @@ public class Vision extends SubsystemBase {
             - Conversions.AngleToRadians(getVerticalOffset()));
   }
 
+  
+
 
   @Override
   public void periodic() {

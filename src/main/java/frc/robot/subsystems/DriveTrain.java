@@ -137,6 +137,7 @@ public class DriveTrain extends SubsystemBase {
     leftMotor2.set(0);
   }
 
+
   //average of 4 motors
   public double getAvgTemperature(){
     return (rightMotor1.getTemperature()+rightMotor2.getTemperature()

@@ -8,17 +8,11 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSink;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
-import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
-import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.TelemetryConstants;
@@ -29,16 +23,9 @@ public class Telemetry extends SubsystemBase {
   public Accelerometer accelmeter;
   public DigitalInput upHallSwitch;
   public DigitalInput downHallSwitch;
-  public DigitalInput upLimitSwitch;
-  public DigitalInput downLimitSwitch;
 
-  //odometry/sensing
-  public DifferentialDrivePoseEstimator odometry;
-  public DifferentialDriveKinematics kinematics;
-  public Field2d field = new Field2d();
   public Encoder leftEncoder;
   public Encoder rightEncoder;
-  private DifferentialDrivetrainSim driveSim;
   
   //cameras
   private UsbCamera camera1;
@@ -57,10 +44,6 @@ public class Telemetry extends SubsystemBase {
     upHallSwitch = new DigitalInput(TelemetryConstants.MAX_HALLSWITCH_ID);
     downHallSwitch = new DigitalInput(TelemetryConstants.MIN_HALLSWITCH_ID);
 
-    //limit switches
-    upLimitSwitch = new DigitalInput(TelemetryConstants.UP_LIMITSWITCH_ID);
-    downLimitSwitch = new DigitalInput(TelemetryConstants.DOWN_LIMITSWITCH_ID);
-
     //encoders
     leftEncoder = new Encoder(TelemetryConstants.LEFT_ENCODER_ID, TelemetryConstants.LEFT_ENCODER_ID2);
     rightEncoder = new Encoder(TelemetryConstants.RIGHT_ENCODER_ID, TelemetryConstants.RIGHT_ENCODER_ID2);
@@ -72,10 +55,6 @@ public class Telemetry extends SubsystemBase {
 
     //configure
     configureEncoders();
-
-    kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(21));
-    odometry = new DifferentialDrivePoseEstimator(kinematics, gyro.getRotation2d(), 
-                          leftEncoder.getDistance(), rightEncoder.getDistance(), new Pose2d());
   }
 
   //camera
@@ -145,8 +124,5 @@ public class Telemetry extends SubsystemBase {
 
     SmartDashboard.putNumber("Right Encoder", rightEncoder.getDistance());
     SmartDashboard.putNumber("Left Encoder", leftEncoder.getDistance());
-
-    SmartDashboard.putBoolean("Arm Max", upLimitSwitch.get());
-    SmartDashboard.putBoolean("Arm Min", downLimitSwitch.get());
   }
 }

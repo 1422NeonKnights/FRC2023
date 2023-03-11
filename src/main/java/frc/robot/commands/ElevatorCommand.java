@@ -29,7 +29,6 @@ public class ElevatorCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    vision.setLEDMode("on");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,18 +38,24 @@ public class ElevatorCommand extends CommandBase {
     
     if(!(telemetry.upHallSwitch.get())) {
       if(xboxY < 0) {
-        elevator.elevatorMove(xboxY);
+        elevator.elevatorMoveDown(xboxY);
       }else{
         elevator.elevatorStop();
       }
     } else if (!(telemetry.downHallSwitch.get())) {
       if(xboxY > 0) {
-        elevator.elevatorMove(xboxY);
+        elevator.elevatorMoveUp(xboxY);
       }else{
         elevator.elevatorStop();
       }
     } else {
-      elevator.elevatorMove(xboxY);
+      if(xboxY < 0) {
+        elevator.elevatorMoveDown(xboxY);
+      } else if (xboxY > 0) {
+        elevator.elevatorMoveUp(xboxY);
+      } else {
+        elevator.elevatorStop();
+      }
     }
     
   }

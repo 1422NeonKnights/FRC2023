@@ -12,13 +12,13 @@ import frc.robot.subsystems.Telemetry;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TaxiAutonomous extends SequentialCommandGroup {
-  /** Creates a new TaxiAutonomous. */
-  public TaxiAutonomous(DriveTrain driveTrain, Telemetry telemetry) {
+public class ChargingPortAutonomous extends SequentialCommandGroup {
+  /** Creates a new ChargingPortAutonomous. */
+  public ChargingPortAutonomous(DriveTrain driveTrain, Telemetry telemetry) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new DriveForDistance(driveTrain, telemetry, 60)
-    );
+      );
   }
 }

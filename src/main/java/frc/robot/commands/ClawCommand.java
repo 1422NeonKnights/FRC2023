@@ -46,10 +46,10 @@ public class ClawCommand extends CommandBase {
     //open claw when pressed A for cones
     if(XboxStick.getAButtonPressed()) {
       if(clawToggle) {
-        claw.closeClaw();
+        claw.coneCloseClaw();
         clawToggle = false;
       } else {
-        claw.coneOpenClaw();
+        claw.openClaw();
         clawToggle = true;
       }
     }
@@ -57,10 +57,10 @@ public class ClawCommand extends CommandBase {
     //open half claw when presesd B for cubes
     if(XboxStick.getBButtonPressed()) {
       if(clawToggle) {
-        claw.closeClaw();
+        claw.cubeCloseClaw();
         clawToggle = false;
       } else {
-        claw.cubeOpenClaw();
+        claw.openClaw();
         clawToggle = true;
       }
     }

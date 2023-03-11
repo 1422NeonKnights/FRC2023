@@ -41,19 +41,22 @@ public final class Constants {
     public static final double AUTOCORRECTION_SPEED = 0.55;
     public static final double AUTOCORRECTION_TURNSPEED = 0.50;
     public static final double AUTOCORRECTION_ANGLE = 6.9;
+
+    public static final double AUTODISTANCE_DRIVESPEED = 0.6;
   }
 
   public class ElevatorConstants{
     //ID values
     public static final int TOWER_MOTOR_RIGHT_ID = 5; 
     public static final int TOWER_MOTOR_LEFT_ID = 4;
-    public static final double ELEVATOR_MAX_SPEED = 0.4;
+    public static final double ELEVATOR_MAX_UP_SPEED = 0.4;
+    public static final double ELEVATOR_MAX_DOWN_SPEED = 0.2;
     
   }
 
   public class ArmConstants{
     public static final int ARM_MOTOR_ID = 6;
-    public static final double ARM_MAXI_SPEED = 0.3;
+    public static final double ARM_MAXI_SPEED = 1;
   }
 
   public class VisionConstants{
@@ -62,7 +65,7 @@ public final class Constants {
     public static final double DISTANCE_CENTER = 0;
 
     public static final double HORIZONTAL_OFFSET_ALLOWANCE = 10;
-    public static final double VERTICAL_OFFSET_ALLOWANCE = 7;
+    public static final double VERTICAL_OFFSET_ALLOWANCE = 5;
     public static final double DISTANCE_OFFSET_ALLOWANCE = 0.5;
     public static final double LIMELIGHT_MOUNT_ANGLE = 0;
 
@@ -70,6 +73,9 @@ public final class Constants {
     public static final double CALLIBRATED_DISTANCE = 46;
     public static final double LIMELIGHT_MOUNT_HEIGHT = 11.5;
     public static final double GOAL_HEIGHT = 25;
+
+    //comp
+    public static final double CALIBRATED_GOAL_DISTANCE = 65;
   }
 
   public class ClawConstants{
@@ -78,9 +84,6 @@ public final class Constants {
 
   public class TelemetryConstants{
     //ID values
-    public static final int UP_LIMITSWITCH_ID = 4;
-    public static final int DOWN_LIMITSWITCH_ID = 5;
-
     public static final int MAX_HALLSWITCH_ID = 6;
     public static final int MIN_HALLSWITCH_ID = 7;
 

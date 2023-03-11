@@ -34,6 +34,8 @@ public class Arm extends SubsystemBase {
     
         // enable
         armMotor.enableCurrentLimit(true);
+
+        armMotor.setInverted(false);
   }
 
 

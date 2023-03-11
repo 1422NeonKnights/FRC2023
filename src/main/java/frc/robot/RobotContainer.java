@@ -18,11 +18,12 @@ import frc.robot.commands.CameraCommand;
 import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.ClawCommand;
 import frc.robot.commands.auto.AutoCorrectionDrive;
-import frc.robot.commands.auto.DriveForDistance;
-import frc.robot.commands.auto.DriveTimedCommand;
 import frc.robot.commands.auto.ElevatorLock;
 import frc.robot.commands.auto.FollowDrive;
 import frc.robot.commands.auto.LockTargetCommand;
+import frc.robot.commands.auto.drive.DriveForDistance;
+import frc.robot.commands.auto.drive.DriveTimedCommand;
+import frc.robot.commands.auto.sequential.ChargingPortAutonomous;
 import frc.robot.commands.auto.sequential.TaxiAutonomous;
 import frc.robot.commands.drive.ArcadeDrive;
 import frc.robot.subsystems.Arm;
@@ -64,6 +65,7 @@ public class RobotContainer {
   public static ElevatorLock elevatorLock;
   //sequential
   private final TaxiAutonomous taxiAutonomous;
+  private final ChargingPortAutonomous chargingPortAutonomous;
 
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
   
@@ -95,7 +97,7 @@ public class RobotContainer {
     elevatorCommand = new ElevatorCommand(elevator, XboxStick, vision, telemetry);
     elevator.setDefaultCommand(elevatorCommand);
 
-    armCommand = new ArmCommand(arm, XboxStick, telemetry);
+    armCommand = new ArmCommand(arm, XboxStick);
     arm.setDefaultCommand(armCommand);
 
     //Camera
@@ -106,10 +108,11 @@ public class RobotContainer {
     followDrive = new FollowDrive(drivetrain, vision);
     autoCorrectionDrive = new AutoCorrectionDrive(drivetrain, telemetry);
     lockTargetCommand = new LockTargetCommand(drivetrain, vision);
-    elevatorLock = new ElevatorLock(elevator, vision);
+    elevatorLock = new ElevatorLock(drivetrain, elevator, vision);
 
     //squential auto
     taxiAutonomous = new TaxiAutonomous(drivetrain, telemetry);
+    chargingPortAutonomous = new ChargingPortAutonomous(drivetrain, telemetry);
 
     // Configure the trigger bindings
     configureBindings();
@@ -140,8 +143,7 @@ public class RobotContainer {
 
   private void configureAutoChooser() {
     autoChooser.setDefaultOption("Taxi", taxiAutonomous);
-    //TODO: Make autonomous sequential commands and add options
-    //autoChooser.addOption();
+    autoChooser.addOption("Charging Port", chargingPortAutonomous);
     
     SmartDashboard.putData(autoChooser);
   }

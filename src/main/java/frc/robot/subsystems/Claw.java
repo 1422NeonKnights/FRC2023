@@ -42,18 +42,18 @@ public class Claw extends SubsystemBase {
     }
   }
 
-  public void coneOpenClaw(){
+  public void openClaw(){
     leftGrabber.set(Value.kReverse);
     rightGrabber.set(Value.kReverse);
     clawStat = false;
   }
-
-  public void cubeOpenClaw(){
-    leftGrabber.set(Value.kReverse);
-    clawStat = false;
+  public void cubeCloseClaw()
+  {
+    leftGrabber.set(Value.kForward);
+    rightGrabber.set(Value.kReverse);
+    clawStat = true;
   }
-  
-  public void closeClaw(){
+  public void coneCloseClaw(){
     leftGrabber.set(Value.kForward);
     rightGrabber.set(Value.kForward);
     clawStat = true;

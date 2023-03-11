@@ -2,22 +2,14 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.auto.drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.subsystems.Arm;
 
-public class ArmCommand extends CommandBase {
-  /** Creates a new ArmCommand. */
-  Arm arm;
-  XboxController xboxStick;
-
-  public ArmCommand(Arm arm, XboxController xboxStick) {
+public class DriveTurn extends CommandBase {
+  /** Creates a new DriveTurn. */
+  public DriveTurn() {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.arm = arm;
-    this.xboxStick = xboxStick;
-    addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.
@@ -26,11 +18,7 @@ public class ArmCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    double xboxRY = xboxStick.getRightY();
-
-    arm.armMove(xboxRY);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
